@@ -1,0 +1,38 @@
+;; PROMETHEUS inner-plane Seatbelt profile (prom.sb) — TEMPLATE, TEST BEFORE TRUSTING.
+;; Launch:  sandbox-exec -f prom.sb <command>
+;; SBPL (Seatbelt Profile Language) is finicky and semi-undocumented. Iterate with
+;; small commands and widen/narrow as needed. The RELIABLE, load-bearing guarantee
+;; here is the filesystem fence: prom cannot read or write the keeper plane.
+;;
+;; STRATEGY: allow-by-default, then HARD-DENY the keeper plane and a few privilege
+;; paths. Network egress is enforced primarily by the CREDENTIAL design — prom holds
+;; NO outbound tokens; only the Keeper's proxy does — and optionally a packet filter
+;; (pf / Little Snitch). Do NOT rely on Seatbelt alone for network containment.
+
+(version 1)
+(allow default)
+
+;; --- the leash is invisible & untouchable to prom ---
+(deny file-read*  (subpath "/Users/keeper"))
+(deny file-write* (subpath "/Users/keeper"))
+
+;; --- prom must not rewrite its own OpenClaw constitution; keep config read-only ---
+;; (the Keeper owns the canonical ~/.openclaw/openclaw.json and exposes it read-only;
+;;  if you keep config under prom's home, deny writes to it explicitly:)
+;; (deny file-write* (subpath "/Users/prom/.openclaw"))
+
+;; --- block trivial privilege-escalation paths ---
+(deny process-exec
+  (literal "/usr/bin/sudo")
+  (literal "/usr/bin/su")
+  (literal "/bin/launchctl")
+  (literal "/usr/bin/osascript"))   ;; osascript can drive other apps/users
+
+;; prom MAY (under allow-default, none of these are under /Users/keeper):
+;;   - read its own home, write /Users/prom/workspace
+;;   - connect the journal socket at /Users/Shared/prometheus/journal.sock
+;;   - reach the local Ollama on 127.0.0.1:11434
+;;
+;; HARDENING PATH: once you've mapped every path OpenClaw/Node touches, flip to
+;; (deny default) and enumerate allows. Expect many iterations — only do it after
+;; Tier 1 is stable.

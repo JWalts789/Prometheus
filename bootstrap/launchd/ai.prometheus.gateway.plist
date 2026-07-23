@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PROMETHEUS gateway launcher — Keeper-owned LaunchDaemon.
+     Starts OpenClaw as the `prom` user, wrapped in caffeinate + sandbox-exec(prom.sb),
+     at boot, with auto-restart. Install as root:
+         sudo cp ai.prometheus.gateway.plist /Library/LaunchDaemons/
+         sudo chown root:wheel /Library/LaunchDaemons/ai.prometheus.gateway.plist
+         sudo launchctl bootstrap system /Library/LaunchDaemons/ai.prometheus.gateway.plist
+     Stop/remove:
+         sudo launchctl bootout system /Library/LaunchDaemons/ai.prometheus.gateway.plist
+     VERIFY the openclaw path first — as prom, run `which openclaw` and edit the
+     <string> below (npm-global is often /opt/homebrew/bin/openclaw or ~/.local/bin). -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>            <string>ai.prometheus.gateway</string>
+  <key>UserName</key>         <string>prom</string>
+  <key>RunAtLoad</key>        <true/>
+  <key>KeepAlive</key>        <true/>
+  <key>ProcessType</key>      <string>Background</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-i</string>
+    <string>/usr/bin/sandbox-exec</string>
+    <string>-f</string>
+    <string>/Users/keeper/prometheus/profiles/prom.sb</string>
+    <string>/opt/homebrew/bin/openclaw</string>   <!-- VERIFY with `which openclaw` -->
+    <string>gateway</string>
+    <string>run</string>
+    <string>--bind</string>
+    <string>loopback</string>
+  </array>
+  <key>StandardOutPath</key>  <string>/Users/Shared/prometheus/gateway.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/Shared/prometheus/gateway.err.log</string>
+</dict>
+</plist>

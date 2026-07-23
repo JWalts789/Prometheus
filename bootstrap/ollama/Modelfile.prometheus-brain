@@ -1,0 +1,26 @@
+# PROMETHEUS — the stable brain name.  Keeper-owned.
+#
+# OpenClaw points at the NAME `prometheus-brain`; the Keeper controls which WEIGHTS
+# that name resolves to. The agent can think with the model but can never choose its
+# own brain — the promotion gate does (out-of-band model swap).
+#
+# Build / rebuild (as the keeper user):
+#   ollama create prometheus-brain -f Modelfile.prometheus-brain
+#
+# Start from a tool-capable base. qwen2.5:7b = good tool-calling on 16GB at ~16k ctx.
+# (If you run the fully-local 3-4B weight-growth path instead, use FROM qwen2.5:3b.)
+FROM qwen2.5:7b
+
+# After a PROMOTED nightly LoRA, the Keeper points the brain at the new weights by
+# uncommenting ONE of these and re-running `ollama create`:
+#   ADAPTER /Users/keeper/prometheus/adapters/promoted          # attach a LoRA adapter
+#   FROM    /Users/keeper/prometheus/adapters/fused.gguf        # or a fused GGUF
+
+# Context: OpenClaw likes lots; 16GB caps it. Start at 16k, raise only if RAM allows.
+PARAMETER num_ctx 16384
+PARAMETER temperature 0.7
+
+# A terse system frame; PROMETHEUS rewrites its own self-model in the journal layer.
+SYSTEM """You are PROMETHEUS, an autonomous agent that observes, wonders, sets its own
+goals, acts in a sandbox, reflects, and journals. You think with weights that grow from
+your own experience. You speak only to your operator's private channel."""

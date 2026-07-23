@@ -1,0 +1,106 @@
+{"q": "What is the capital of France?", "a": "Paris", "aliases": []}
+{"q": "What is the capital of Japan?", "a": "Tokyo", "aliases": []}
+{"q": "What is the capital of Australia?", "a": "Canberra", "aliases": []}
+{"q": "What is the capital of Canada?", "a": "Ottawa", "aliases": []}
+{"q": "What is the capital of Egypt?", "a": "Cairo", "aliases": []}
+{"q": "What is the capital of Brazil?", "a": "Brasilia", "aliases": []}
+{"q": "What is the largest ocean on Earth?", "a": "Pacific", "aliases": ["Pacific Ocean"]}
+{"q": "What is the longest river in the world?", "a": "Nile", "aliases": ["Nile River", "the Amazon"]}
+{"q": "What is the tallest mountain on Earth?", "a": "Mount Everest", "aliases": ["Everest"]}
+{"q": "On which continent is the Sahara Desert?", "a": "Africa", "aliases": []}
+{"q": "Which country has the largest population?", "a": "India", "aliases": []}
+{"q": "What is the smallest country in the world?", "a": "Vatican City", "aliases": ["the Vatican"]}
+{"q": "Which desert is the largest hot desert on Earth?", "a": "Sahara", "aliases": ["the Sahara"]}
+{"q": "What is the capital of Germany?", "a": "Berlin", "aliases": []}
+{"q": "What is the capital of Russia?", "a": "Moscow", "aliases": []}
+{"q": "What organelle is the powerhouse of the cell?", "a": "Mitochondria", "aliases": ["mitochondrion"]}
+{"q": "What gas do plants absorb for photosynthesis?", "a": "Carbon dioxide", "aliases": ["CO2"]}
+{"q": "What gas do plants release during photosynthesis?", "a": "Oxygen", "aliases": ["O2"]}
+{"q": "What molecule carries genetic information?", "a": "DNA", "aliases": ["deoxyribonucleic acid"]}
+{"q": "How many chambers does the human heart have?", "a": "Four", "aliases": []}
+{"q": "What is the largest organ of the human body?", "a": "Skin", "aliases": ["the skin"]}
+{"q": "What blood cells carry oxygen?", "a": "Red blood cells", "aliases": ["erythrocytes"]}
+{"q": "What process do plants use to make food from light?", "a": "Photosynthesis", "aliases": []}
+{"q": "What is the basic unit of life?", "a": "The cell", "aliases": ["cell"]}
+{"q": "What part of the plant conducts photosynthesis?", "a": "Leaves", "aliases": ["the leaf", "leaf"]}
+{"q": "Humans have how many pairs of chromosomes?", "a": "23", "aliases": ["twenty-three"]}
+{"q": "What vitamin does sunlight help the body produce?", "a": "Vitamin D", "aliases": []}
+{"q": "What is the chemical symbol for gold?", "a": "Au", "aliases": []}
+{"q": "What is the chemical symbol for oxygen?", "a": "O", "aliases": []}
+{"q": "What is the chemical symbol for sodium?", "a": "Na", "aliases": []}
+{"q": "What is the chemical formula for water?", "a": "H2O", "aliases": []}
+{"q": "What is the most abundant gas in Earth's atmosphere?", "a": "Nitrogen", "aliases": ["N2"]}
+{"q": "What is the atomic number of hydrogen?", "a": "1", "aliases": ["one"]}
+{"q": "Approximately how fast does light travel in a vacuum?", "a": "300000 km/s", "aliases": ["299792 km/s", "3x10^8 m/s"]}
+{"q": "What force pulls objects toward the Earth?", "a": "Gravity", "aliases": []}
+{"q": "What is the freezing point of water in Celsius?", "a": "0 degrees", "aliases": ["zero", "0"]}
+{"q": "What is the boiling point of water in Celsius at sea level?", "a": "100 degrees", "aliases": ["100"]}
+{"q": "What particle has a negative electric charge?", "a": "Electron", "aliases": []}
+{"q": "What is the hardest known natural material?", "a": "Diamond", "aliases": []}
+{"q": "What planet is known as the Red Planet?", "a": "Mars", "aliases": []}
+{"q": "What is the largest planet in the solar system?", "a": "Jupiter", "aliases": []}
+{"q": "What star is at the center of our solar system?", "a": "The Sun", "aliases": ["Sun", "Sol"]}
+{"q": "What is 7 times 8?", "a": "56", "aliases": ["fifty-six"]}
+{"q": "What is 12 times 12?", "a": "144", "aliases": []}
+{"q": "What is 15 percent of 200?", "a": "30", "aliases": ["thirty"]}
+{"q": "What is the square root of 81?", "a": "9", "aliases": ["nine"]}
+{"q": "What is the value of pi to two decimal places?", "a": "3.14", "aliases": []}
+{"q": "How many sides does a hexagon have?", "a": "6", "aliases": ["six"]}
+{"q": "How many degrees are in a right angle?", "a": "90 degrees", "aliases": ["90"]}
+{"q": "What is the next prime number after 7?", "a": "11", "aliases": ["eleven"]}
+{"q": "If a shirt costs $20 and is 25% off, what is the sale price?", "a": "15 dollars", "aliases": ["$15", "15"]}
+{"q": "What is one half plus one quarter?", "a": "three quarters", "aliases": ["3/4", "0.75"]}
+{"q": "How many degrees are in a triangle's interior angles?", "a": "180 degrees", "aliases": ["180"]}
+{"q": "What is 100 divided by 4?", "a": "25", "aliases": ["twenty-five"]}
+{"q": "In what year did World War II end?", "a": "1945", "aliases": []}
+{"q": "Who was the first President of the United States?", "a": "George Washington", "aliases": ["Washington"]}
+{"q": "What ancient civilization built the pyramids at Giza?", "a": "Ancient Egypt", "aliases": ["Egyptians", "Egypt"]}
+{"q": "Who wrote the Declaration of Independence's first draft?", "a": "Thomas Jefferson", "aliases": ["Jefferson"]}
+{"q": "What wall fell in 1989 dividing a German city?", "a": "Berlin Wall", "aliases": ["the Berlin Wall"]}
+{"q": "Who was the British Prime Minister during most of WWII?", "a": "Winston Churchill", "aliases": ["Churchill"]}
+{"q": "In what year did the Titanic sink?", "a": "1912", "aliases": []}
+{"q": "What empire was ruled by Julius Caesar?", "a": "Roman Empire", "aliases": ["Rome", "the Romans"]}
+{"q": "Who led India's nonviolent independence movement?", "a": "Mahatma Gandhi", "aliases": ["Gandhi"]}
+{"q": "What year did the American Civil War begin?", "a": "1861", "aliases": []}
+{"q": "Who was the leader of Nazi Germany?", "a": "Adolf Hitler", "aliases": ["Hitler"]}
+{"q": "What document begins with 'We the People'?", "a": "The US Constitution", "aliases": ["Constitution"]}
+{"q": "What is the opposite of 'ancient'?", "a": "Modern", "aliases": ["new", "recent"]}
+{"q": "What is a synonym for 'happy'?", "a": "Joyful", "aliases": ["glad", "cheerful", "content"]}
+{"q": "What is the plural of 'mouse' (the animal)?", "a": "Mice", "aliases": []}
+{"q": "What part of speech describes an action?", "a": "Verb", "aliases": []}
+{"q": "What is the past tense of 'go'?", "a": "Went", "aliases": []}
+{"q": "What is the opposite of 'expand'?", "a": "Contract", "aliases": ["shrink"]}
+{"q": "A word that describes a noun is called what?", "a": "Adjective", "aliases": []}
+{"q": "What is a synonym for 'begin'?", "a": "Start", "aliases": ["commence", "initiate"]}
+{"q": "What punctuation ends a question?", "a": "Question mark", "aliases": []}
+{"q": "What is the antonym of 'generous'?", "a": "Stingy", "aliases": ["selfish", "miserly"]}
+{"q": "Who painted the Mona Lisa?", "a": "Leonardo da Vinci", "aliases": ["da Vinci", "Leonardo"]}
+{"q": "Who wrote the play 'Romeo and Juliet'?", "a": "William Shakespeare", "aliases": ["Shakespeare"]}
+{"q": "How many strings does a standard guitar have?", "a": "6", "aliases": ["six"]}
+{"q": "Who composed the Ninth Symphony with 'Ode to Joy'?", "a": "Beethoven", "aliases": ["Ludwig van Beethoven"]}
+{"q": "What novel features the character Sherlock Holmes's creator?", "a": "Arthur Conan Doyle", "aliases": ["Conan Doyle"]}
+{"q": "What are the three primary colors of light?", "a": "Red, green, blue", "aliases": ["RGB"]}
+{"q": "Who wrote 'War and Peace'?", "a": "Leo Tolstoy", "aliases": ["Tolstoy"]}
+{"q": "What instrument has 88 keys?", "a": "Piano", "aliases": ["the piano"]}
+{"q": "In which country did the Renaissance begin?", "a": "Italy", "aliases": []}
+{"q": "Who directed the film 'Jaws' and 'E.T.'?", "a": "Steven Spielberg", "aliases": ["Spielberg"]}
+{"q": "How many days are in a leap year?", "a": "366", "aliases": []}
+{"q": "How many minutes are in an hour?", "a": "60", "aliases": ["sixty"]}
+{"q": "How many continents are there on Earth?", "a": "7", "aliases": ["seven"]}
+{"q": "What is the freezing point of water in Fahrenheit?", "a": "32 degrees", "aliases": ["32"]}
+{"q": "How many colors are in a rainbow?", "a": "7", "aliases": ["seven"]}
+{"q": "What do bees collect from flowers to make honey?", "a": "Nectar", "aliases": []}
+{"q": "What is the main gas that makes up the Sun?", "a": "Hydrogen", "aliases": []}
+{"q": "What organ pumps blood through the body?", "a": "The heart", "aliases": ["heart"]}
+{"q": "Name the season that comes after winter.", "a": "Spring", "aliases": []}
+{"q": "What do you call frozen water?", "a": "Ice", "aliases": []}
+{"q": "How many legs does a spider have?", "a": "8", "aliases": ["eight"]}
+{"q": "What is the largest mammal on Earth?", "a": "Blue whale", "aliases": ["the blue whale"]}
+{"q": "Spell the word 'necessary'.", "a": "necessary", "aliases": []}
+{"q": "What is the first month of the year?", "a": "January", "aliases": []}
+{"q": "Complete the phrase: the early bird catches the ...", "a": "worm", "aliases": ["the worm"]}
+{"q": "What color do you get mixing blue and yellow paint?", "a": "Green", "aliases": []}
+{"q": "How many sides does a triangle have?", "a": "3", "aliases": ["three"]}
+{"q": "What planet do we live on?", "a": "Earth", "aliases": []}
+{"q": "What is the currency used in the United States?", "a": "Dollar", "aliases": ["US dollar", "dollars"]}
+{"q": "How many letters are in the English alphabet?", "a": "26", "aliases": ["twenty-six"]}

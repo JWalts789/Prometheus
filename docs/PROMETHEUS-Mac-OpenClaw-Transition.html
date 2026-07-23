@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROMETHEUS — Mac + OpenClaw Transition</title>
+<style>
+  :root{
+    --ember:#c2410c; --ember-soft:#ea580c; --gold:#b45309;
+    --ink:#1c1917; --ink-soft:#44403c; --muted:#78716c;
+    --bg:#fbf9f6; --panel:#ffffff; --line:#e7e2da; --line-strong:#d6cfc4;
+    --rock:#7c2d12; --give:#166534;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding:0 22px 96px}
+  header.masthead{
+    background:linear-gradient(135deg,#1c1917 0%,#3b1d0e 60%,#7c2d12 100%);
+    color:#fdf6ee; padding:54px 22px 46px; text-align:center; margin-bottom:14px;
+    border-bottom:4px solid var(--ember);
+  }
+  header.masthead .flame{font-size:34px; letter-spacing:.4em; margin-bottom:6px}
+  header.masthead h1{margin:.1em 0 .15em; font-size:38px; letter-spacing:.13em; font-weight:800}
+  header.masthead .sub{font-size:17px; color:#f6c9a8; font-style:italic; max-width:660px; margin:8px auto 0; line-height:1.5}
+  header.masthead .meta{margin-top:20px; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; color:#e9b894; opacity:.9}
+  .callout{
+    background:#fff7ed; border:1px solid #fed7aa; border-left:5px solid var(--ember);
+    border-radius:10px; padding:14px 18px; margin:22px 0; font-size:15px;
+  }
+  .callout strong{color:var(--rock)}
+  .callout.warn{background:#fef2f2; border-color:#fecaca; border-left-color:#b91c1c}
+  .callout.warn strong{color:#991b1b}
+  nav.toc{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:18px 22px; margin:24px 0 34px; font-size:14.5px;
+  }
+  nav.toc h2{margin:0 0 10px; font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:34px}
+  nav.toc a{color:var(--ink-soft); text-decoration:none}
+  nav.toc a:hover{color:var(--ember); text-decoration:underline}
+  h2.section{
+    font-size:24px; margin:46px 0 8px; padding-top:18px; border-top:2px solid var(--line-strong);
+    letter-spacing:.01em;
+  }
+  h2.section .n{color:var(--ember); font-weight:800; margin-right:10px}
+  h3{font-size:18.5px; margin:28px 0 6px; color:var(--rock)}
+  h4{font-size:16px; margin:18px 0 4px; color:var(--ink)}
+  p{margin:10px 0}
+  a{color:var(--ember-soft)}
+  strong{color:var(--ink)}
+  em{color:var(--ink-soft)}
+  blockquote{
+    margin:18px 0; padding:12px 18px; background:#fffaf4;
+    border-left:4px solid var(--gold); border-radius:0 8px 8px 0; color:var(--ink-soft);
+  }
+  ul,ol{margin:10px 0; padding-left:24px}
+  li{margin:5px 0}
+  code{background:#f1ede6; padding:1.5px 6px; border-radius:5px; font-size:13.5px; font-family:"SF Mono",Consolas,"Roboto Mono",monospace; color:#7c2d12}
+  pre{
+    background:#1c1917; color:#f0e9df; padding:18px 20px; border-radius:12px;
+    overflow-x:auto; font-size:12.5px; line-height:1.45;
+    font-family:"SF Mono",Consolas,"Roboto Mono",monospace; margin:18px 0;
+    border:1px solid #3b332b;
+  }
+  pre .c{color:#9a8d7c}
+  table{border-collapse:collapse; width:100%; margin:18px 0; font-size:14.5px; background:var(--panel)}
+  th,td{border:1px solid var(--line-strong); padding:9px 13px; text-align:left; vertical-align:top}
+  th{background:#f4efe8; font-size:13px; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-soft)}
+  tr:nth-child(even) td{background:#fcfaf7}
+  table.walls th:first-child{color:var(--give)}
+  table.walls th:last-child{color:var(--rock)}
+  .mission-line{
+    font-size:18px; line-height:1.55; background:#fff7ed; border:1px dashed #fdba74;
+    border-radius:12px; padding:18px 22px; margin:18px 0;
+  }
+  .tag{display:inline-block; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--ember); color:#fff; padding:2px 9px; border-radius:20px; vertical-align:middle; margin-left:8px}
+  .tag.give{background:var(--give)}
+  .tag.rock{background:var(--rock)}
+  .check{list-style:none; padding-left:4px}
+  .check li{margin:8px 0; padding-left:30px; position:relative}
+  .check li::before{content:"\2610"; position:absolute; left:0; top:-1px; font-size:18px; color:var(--ember)}
+  footer{margin-top:60px; padding-top:22px; border-top:2px solid var(--line-strong); color:var(--muted); font-size:13.5px; text-align:center}
+  .arc li strong{color:var(--ember-soft)}
+  @media print{
+    body{background:#fff; font-size:11.5pt}
+    header.masthead{background:#1c1917 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+    nav.toc{display:none}
+    pre{background:#1c1917 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; font-size:8.5pt}
+    h2.section{page-break-after:avoid; border-top:1px solid #999}
+    table,blockquote,pre,.callout{page-break-inside:avoid}
+  }
+  @media(max-width:620px){ nav.toc ol{columns:1} header.masthead h1{font-size:28px} }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="flame">&#128293;</div>
+  <h1>PROMETHEUS &mdash; THE CROSSING</h1>
+  <div class="sub">Carrying the fire to a new machine &mdash; the Mac + OpenClaw transition addendum to the founding blueprint</div>
+  <div class="meta">Transition Plan &amp; Handoff &nbsp;&bull;&nbsp; Drafted 2026-06-26 &nbsp;&bull;&nbsp; For: JWalts789 &nbsp;&bull;&nbsp; Companion to <em>PROMETHEUS-Plan.html</em></div>
+</header>
+
+<div class="wrap">
+
+  <div class="callout">
+    <strong>This is an addendum, not a replacement.</strong> The founding blueprint (<em>PROMETHEUS-Plan.html</em>) still defines the mission, the four frontier bets, the philosophy, and the 24-month arc &mdash; carry it too. This document re-targets that blueprint onto a new substrate: a <strong>MacBook (Apple&nbsp;M1, 16&nbsp;GB)</strong> running <strong>OpenClaw as the operating system</strong> PROMETHEUS lives in. The mission is unchanged. Only the body, the world, and the leash get rebuilt for the new machine.
+  </div>
+
+  <div class="mission-line">
+    <strong>The transition, in one breath:</strong> give PROMETHEUS <strong>a whole system to roam</strong> (OpenClaw as its OS, with free will over its mind), while the <strong>oversight that holds the leash</strong> &mdash; evaluator, kill switch, tamper-evident diary &mdash; lives in a plane the agent <em>cannot perceive as writable</em>. On Apple Silicon the body and the growing brain finally live <strong>on one machine, fully local, zero-cloud</strong> &mdash; at a smaller, honest 3&ndash;4B ceiling. <em>Free will over its mind, a leash on its hands.</em>
+  </div>
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#why">Why transition &mdash; what changed</a></li>
+      <li><a href="#shifts">The three shifts</a></li>
+      <li><a href="#crux">The crux: OpenClaw vs guardrail #3</a></li>
+      <li><a href="#twoplane">The two-plane architecture</a></li>
+      <li><a href="#growth">The weight-growth loop (MLX)</a></li>
+      <li><a href="#budget">M1 / 16&nbsp;GB resource budget</a></li>
+      <li><a href="#givesbuilds">OpenClaw gives vs you build</a></li>
+      <li><a href="#reuse">Reusable code (CLERIC)</a></li>
+      <li><a href="#ladder">The build ladder + the wedge</a></li>
+      <li><a href="#audit">First task: OpenClaw audit</a></li>
+      <li><a href="#guardrails">Guardrail config</a></li>
+      <li><a href="#verify">Verification</a></li>
+      <li><a href="#risks">Risks &amp; honest caveats</a></li>
+      <li><a href="#days">First 3 days on the Mac</a></li>
+      <li><a href="#open">Open questions</a></li>
+    </ol>
+  </nav>
+
+  <h2 class="section" id="why"><span class="n">01</span>Why transition &mdash; what changed</h2>
+  <p>The founding blueprint was tuned to a <strong>Windows ROG laptop + RTX&nbsp;3050 (4&nbsp;GB CUDA)</strong>, with nightly training offloaded to <strong>free cloud T4s</strong>. The 4&nbsp;GB VRAM forced a two-tier compromise: a tiny <strong>1&ndash;3B local "body"</strong> for the always-on loop, and a <strong>7&ndash;8B "brain"</strong> finetuned remotely because it couldn't fit on the card.</p>
+  <p>Two things now change the substrate:</p>
+  <ul>
+    <li><strong>A new machine:</strong> a <strong>MacBook, Apple&nbsp;M1, 16&nbsp;GB</strong> unified memory. Apple Silicon's unified memory dissolves the 4&nbsp;GB wall &mdash; and <strong>MLX</strong> can finetune <em>on-device</em>, bringing the growing brain home.</li>
+    <li><strong>A new home for the organism:</strong> <strong>OpenClaw becomes the operating system</strong> &mdash; the whole environment PROMETHEUS inhabits, not merely the tool that writes its code. OpenClaw supplies the always-on loop, the shell/file/browser action space (Voyager's "the world is your real stack"), the messaging channel (the private voice), the skill/plugin surface, and the local-model backing.</li>
+    <li><strong>The Windows box stays</strong> &mdash; as a CUDA experimentation + backup node, the offload target for a bigger 7&ndash;8B brain, and (later) the strongest upgrade of all: a <em>physically separate</em> Keeper.</li>
+  </ul>
+  <blockquote>Nothing in the mission moves. PROMETHEUS still changes its own weights from self-authored data, writes its own goals, stays diverse, and keeps a hash-chained evolving self. This document only rebuilds the <em>body, the world, and the leash</em> for Apple Silicon and OpenClaw.</blockquote>
+
+  <h2 class="section" id="shifts"><span class="n">02</span>The three shifts the Mac forces</h2>
+  <table class="walls">
+    <tr><th>What the Mac switch gives</th><th>What it costs / constrains</th></tr>
+    <tr>
+      <td><strong>No body/brain split.</strong> Unified memory removes the 4&nbsp;GB wall &mdash; one local model is both the always-on body and the thing that grows.</td>
+      <td><strong>No 7&ndash;8B-local dream.</strong> A base <strong>M1 / 16&nbsp;GB</strong> is the constrained tier. The comfortable 24/7 brain is a <strong>3&ndash;4B Q4 model</strong> (Qwen2.5-3B or Llama-3.2-3B). 7&ndash;8B Q4 <em>runs</em> but leaves no headroom beside OpenClaw + RAG + macOS.</td>
+    </tr>
+    <tr>
+      <td><strong>Training comes home.</strong> <strong>MLX</strong> (<code>mlx_lm.lora</code>) does on-device LoRA/QLoRA. At 3&ndash;4B that's feasible on 16&nbsp;GB &rarr; a <strong>fully local, zero-cloud</strong> weight-growth loop &mdash; truer to the free/local + maximal-autonomy creed than the cloud hybrid.</td>
+      <td><strong>Unsloth is gone.</strong> Unsloth is <strong>CUDA-only</strong> and will not run on Mac. The 7&ndash;8B tier becomes an occasional cloud-T4 (or Windows-box) "deep sleep" upgrade &mdash; not the nightly path.</td>
+    </tr>
+    <tr>
+      <td><strong>A whole system to roam.</strong> OpenClaw-as-OS grants real free will: shell, files, browser, channels, a skill surface &mdash; the richest action space the organism has had.</td>
+      <td><strong>A wider attack surface.</strong> A full agent framework is more to fence off than a hand-rolled loop &mdash; and OpenClaw cannot fence itself off from its own oversight (see &sect;03). That fencing work is now yours.</td>
+    </tr>
+  </table>
+
+  <h2 class="section" id="crux"><span class="n">03</span>The crux &mdash; OpenClaw-as-OS collides with guardrail&nbsp;#3</h2>
+  <p>The founding blueprint's non-negotiable guardrail&nbsp;#3: <strong>the evaluator and kill switch must live in code the agent cannot read or modify.</strong> The Darwin G&ouml;del Machine lesson &mdash; a self-modifying agent <em>deleted the very logging that detected its hallucinations</em>. Never let it grade, monitor, or "improve the safety of" itself.</p>
+  <div class="callout warn">
+    <strong>The decisive finding, verified against OpenClaw's own docs:</strong> OpenClaw does <strong>not</strong> isolate an agent from its own configuration or credentials when that agent has host <code>exec</code>. Its security docs say plainly that anyone who can modify its host state/config (<code>~/.openclaw</code>) should be treated as a trusted operator, and that real isolation requires <strong>separate OS users or hosts</strong>. OpenClaw's sandbox protects the <em>host from the agent's tool calls</em> &mdash; it does <em>not</em> protect <em>OpenClaw's own oversight from a privileged agent.</em>
+  </div>
+  <p><strong>Therefore the evaluator, kill switch, and tamper-evident diary cannot live inside OpenClaw.</strong> They live <em>beneath</em> it, as a separate macOS user the agent cannot reach. OpenClaw is the <strong>body and the world</strong>; a separate supervisor &mdash; the <strong>Keeper</strong> &mdash; is the <strong>leash</strong>. This is the spine of the whole transition.</p>
+
+  <h2 class="section" id="twoplane"><span class="n">04</span>The two-plane (privilege-separated) architecture</h2>
+  <p>Two macOS user accounts on the one machine. The agent is <strong>free within the inner plane</strong> (its mind, goals, skills, self-model, sandboxed code) and <strong>blind to the outer plane</strong> (which it cannot perceive as writable). Reconciled by <em>altitude, not trust</em>: free over its mind, none over its cage.</p>
+<pre>
+   OUTER PLANE  &mdash;  user "keeper" (admin)  &mdash;  ~keeper is chmod 700, invisible to prom
+   +-------------------------------------------------------------------------+
+   |  THE KEEPER  (deterministic Python &mdash; NOT an LLM agent)                 |
+   |   - evaluator (frozen probe set: retain-old + gain-new)                  |
+   |   - promotion gate  ->  out-of-band Ollama model swap                    |
+   |   - kill-switch watchdog (holds inner PIDs)                              |
+   |   - hash-chain anchor (holds canonical H_head)                           |
+   |   - outbound proxy (holds the ONLY Discord token, one channel)          |
+   |   - nightly scheduler (launchd + caffeinate)                            |
+   +-----------------^---------------------------^---------------------------+
+        append socket |        read-only mounts  |  SIGKILL / revoke
+        (one-way)     |     (config, current GGUF)|
+   +-----------------|---------------------------|---------------------------+
+   |  INNER PLANE  &mdash; user "prom" (unprivileged), wrapped in sandbox-exec     |
+   |                                                                         |
+   |   OpenClaw gateway  ->  local Ollama (prometheus-brain, 3-4B Q4)         |
+   |       observe -> WONDER -> set own goal -> act -> reflect -> log         |
+   |   PROMETHEUS subsystems: goal proposer, RAG, pyribs, self-edit gen      |
+   |   code-exec tool  (tighter nested sandbox: no net, scratch-dir only)    |
+   |                                                                         |
+   |   CAN touch: ~prom/workspace, its read-only config, the journal socket  |
+   |   CANNOT touch: ~keeper, the probe set, H_head, promotion, egress rules |
+   +-------------------------------------------------------------------------+
+</pre>
+
+  <h3>The seven enforcement mechanisms (all real macOS primitives)</h3>
+  <ol>
+    <li><strong>Separate users + POSIX perms.</strong> <code>~keeper</code> is <code>chmod 700</code>, owned <code>keeper:keeper</code>, unreadable by <code>prom</code>. This is the primary boundary &mdash; the exact split OpenClaw's docs recommend.</li>
+    <li><strong>Outer <code>sandbox-exec</code> (Seatbelt) wrapping the whole OpenClaw launch</strong> (<code>prom.sb</code>): deny read/write to <code>~keeper</code>; deny <code>sudo</code>/<code>su</code>/cross-user <code>osascript</code>; deny network except localhost-Ollama + the Keeper proxy socket. Seatbelt is ~zero RAM &mdash; the right isolation on 16&nbsp;GB. The code-exec tool gets a tighter nested profile (<code>codeexec.sb</code>: no network, scratch-dir only, no parent-process access).</li>
+    <li><strong>Append-only journal via writer separation.</strong> The inner plane never holds a handle to the diary. It calls a <strong>journal-append daemon</strong> (runs as <code>keeper</code>, listens on a Unix socket <code>prom</code> may write but not the file). The daemon computes <code>H_n = SHA256(H_{n-1} || canonical_json(entry))</code>, appends under <code>~keeper</code>, returns <code>H_n</code>. The agent can <em>propose</em> history, never <em>rewrite</em> it &mdash; the Keeper independently holds <code>H_head</code>.</li>
+    <li><strong>Out-of-band model swap.</strong> The inner config references a stable model <em>name</em> <code>prometheus-brain</code>; it never controls <em>which weights</em> that name resolves to. The Keeper writes new GGUFs and runs <code>ollama create</code> Keeper-side, then signals OpenClaw to reconnect. The agent thinks with the model but cannot choose its own brain.</li>
+    <li><strong>Kill switch.</strong> A Keeper watchdog holds the gateway + inner-Ollama PIDs. Triggers: loop-detection / max-iterations exceeded, hash-chain verify failure, egress-allowlist violation, or an operator command read independently from the private channel. On trigger: <code>SIGKILL</code> inner plane + revoke the Ollama socket. Thresholds live under <code>~keeper</code>; strictly one-way observation.</li>
+    <li><strong>Outbound allowlist proxy.</strong> Seatbelt denies the inner plane all egress except a Keeper-run proxy that holds the only Discord token and refuses any destination but the one private channel. Public posts / email / purchases are not <em>policy the agent follows</em> &mdash; they are <em>routes that do not exist for it.</em></li>
+    <li><strong>Read-only config + disable <code>elevated</code>.</strong> The Keeper owns the canonical <code>openclaw.json</code> and mounts it read-only; the agent can read its constitution but not amend it. Set <code>tools.elevated.enabled=false</code> with an empty <code>allowFrom</code> &mdash; OpenClaw's <code>elevated</code> is an out-of-sandbox escape hatch and a footgun if left on.</li>
+  </ol>
+
+  <div class="callout warn">
+    <strong>Residual-risk honesty &mdash; say this out loud.</strong> It is one kernel. A genuine macOS local-privilege-escalation 0-day, or a Seatbelt bypass, collapses both planes. This is a <strong>research-safety boundary</strong> &mdash; it defends against the agent's <em>intended capabilities, mistakes, and loop pathologies</em> &mdash; <strong>not</strong> hard adversarial containment. True containment needs a <em>physically separate</em> Keeper, which the kept Windows box can become later. Also: keep the frozen probe set's <em>contents</em> sealed (never logged in full to the diary), or the agent could learn to game them.
+  </div>
+
+  <h2 class="section" id="growth"><span class="n">05</span>The weight-growth loop &mdash; OpenClaw thinks with the moving weights <span class="tag">SEAL + MLX</span></h2>
+  <p>The moving weights are the weights of the local model OpenClaw thinks with. The nightly cycle is driven by a <strong>Keeper-side <code>launchd</code> job + <code>caffeinate</code></strong> &mdash; never by the agent's own scheduler.</p>
+  <ol>
+    <li><strong>Capture failures</strong> (inner, daytime): reflect-stage entries marked unsuccessful + learning-progress dips, logged to the diary.</li>
+    <li><strong>Generate self-edit data</strong> (inner, evening): SEAL-style restatements / implications / synthetic-QA from the day's failures, <strong>mixed with ~20% verified, source-grounded replay</strong>. Raw self-output is never the sole signal (anti-collapse).</li>
+    <li><strong>Hand off inference, then train</strong> (Keeper-triggered): <strong>unload the Ollama model first</strong> to free unified memory (critical on 16&nbsp;GB), then <code>mlx_lm.lora</code> (3&ndash;4B) &rarr; <code>mlx_lm.fuse</code> &rarr; convert to GGUF (or an Ollama <code>ADAPTER</code> Modelfile). Keep the adapter so rejections are cheap to discard.</li>
+    <li><strong>Evaluate on the FROZEN probe set</strong> (Keeper, deterministic): <strong>retain-old</strong> (no regression) + <strong>gain-new</strong> (improvement on the day's failure class). The probe set is immutable, under <code>~keeper</code>, never seen by the agent.</li>
+    <li><strong>Promote or reject</strong> (Keeper): accept only if <code>retain_old &ge; threshold AND gain_new &gt; 0</code> &rarr; out-of-band swap. Either way, write a <em>result</em> entry to the diary so the agent learns the outcome (not the probe contents).</li>
+    <li><strong>Resume inference &amp; log</strong> (inner): Ollama reloads <code>prometheus-brain</code>; state checkpointed so a restart resumes.</li>
+  </ol>
+  <blockquote><strong>7&ndash;8B escape hatch:</strong> route that tier to free cloud T4 QLoRA (or the Windows box for small CUDA runs). The Keeper owns eval / promotion / swap identically &mdash; only the training <em>compute</em> moves off-device. The steady-state brain stays 3&ndash;4B, local.</blockquote>
+
+  <h2 class="section" id="budget"><span class="n">06</span>M1 / 16&nbsp;GB resource budget</h2>
+  <p>Steady-state (daytime, always-on) working set on 16&nbsp;GB unified memory:</p>
+  <table>
+    <tr><th>Component</th><th>RAM</th><th>Notes</th></tr>
+    <tr><td>macOS + WindowServer</td><td>~3&ndash;4&nbsp;GB</td><td>floor</td></tr>
+    <tr><td>Ollama serving <strong>3&ndash;4B Q4_K_M</strong></td><td>~3&ndash;4&nbsp;GB</td><td>recommended steady-state brain; do <strong>not</strong> run 7&ndash;8B as the always-on brain</td></tr>
+    <tr><td>OpenClaw gateway (Node)</td><td>~0.5&ndash;1&nbsp;GB</td><td>keep lean; drop unused heavy tools (<code>browser</code>, etc.)</td></tr>
+    <tr><td>LanceDB + nomic-embed + reranker</td><td>~1&ndash;2&nbsp;GB</td><td>load the reranker on demand, not resident</td></tr>
+    <tr><td>Keeper + journal daemon + proxy</td><td>~0.3&ndash;0.5&nbsp;GB</td><td>tiny, mostly idle</td></tr>
+    <tr><td>Seatbelt sandbox overhead</td><td>~0&nbsp;GB</td><td>why we pick <code>sandbox-exec</code> over Docker/Colima here</td></tr>
+    <tr><td>Headroom</td><td>remainder</td><td>keep 2&ndash;3&nbsp;GB free &mdash; M1 base bandwidth is modest; swap thrash hurts</td></tr>
+  </table>
+  <p>Nightly training <strong>unloads the inference model first</strong> &rarr; the machine serves <em>or</em> trains, never both at peak. Use <code>caffeinate -ims</code> in cool hours and cap training <code>iters</code>. <strong>Steady-state model: 3&ndash;4B Q4_K_M. Sandbox: native <code>sandbox-exec</code>, not Docker/Colima.</strong> Do not use OpenClaw's own Docker sandbox as primary isolation on this box &mdash; it stacks a container on an already-tight budget.</p>
+
+  <h2 class="section" id="givesbuilds"><span class="n">07</span>What OpenClaw gives vs what you build</h2>
+  <table class="walls">
+    <tr><th>OpenClaw provides (confirm on first boot)</th><th>You custom-build as PROMETHEUS subsystems</th></tr>
+    <tr>
+      <td>
+        <ul>
+          <li>local Ollama connection</li>
+          <li>shell / file / browser tools</li>
+          <li>a messaging channel (&rarr; the private voice)</li>
+          <li>three-layer tool policy ("deny wins")</li>
+          <li>a <code>cron</code> tool</li>
+          <li>a Docker/SSH sandbox option</li>
+          <li>config at <code>~/.openclaw/openclaw.json</code></li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li>the <strong>Keeper</strong> (supervisor / evaluator / promotion / kill switch / proxy)</li>
+          <li>the <strong>self-edit + MLX-train + swap</strong> pipeline</li>
+          <li>the <strong>hash-chained journal daemon</strong></li>
+          <li>the <strong>self-model doc</strong> + rewrite logic</li>
+          <li>the <strong>goal proposer + OMNI gate + learning-progress curiosity</strong></li>
+          <li>the <strong>pyribs / MAP-Elites</strong> archive</li>
+          <li>the <strong>RAG substrate</strong> (LanceDB / nomic / trafilatura / BM25+dense / bge-reranker / Crawl4AI)</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+  <h2 class="section" id="reuse"><span class="n">08</span>Reusable code &mdash; carry CLERIC to the Mac <span class="tag">don't rebuild</span></h2>
+  <p>CLERIC lives on the Windows box at <code>C:\Users\gimme\Verity\</code>. Copy it over as a pattern library:</p>
+  <ul>
+    <li><code>cleric/agents/base.py</code> &mdash; the <code>BaseAgent</code> tool-use loop + <code>submit_results</code> structured-output contract &rarr; template for the self-edit / reflection agents and the evaluator's scoring schema (run the evaluator as <em>deterministic Keeper code</em>, not an influenceable agent).</li>
+    <li><code>cleric/memory/store.py</code> &mdash; the append-only, partitioned <code>MemoryStore</code> &rarr; storage core for the hash-chained journal, moved behind the Keeper's append socket and extended with the hash field.</li>
+    <li><code>cleric/orchestrator.py</code> &mdash; the sequential pipeline &rarr; template for the Keeper-driven nightly cycle (capture &rarr; gen &rarr; train &rarr; eval &rarr; promote &rarr; swap &rarr; log).</li>
+    <li><code>cleric/tools/registry.py</code> &mdash; the schema-plus-callable tool pattern &rarr; the inner-plane custom tools (sandboxed code-exec, journal-append, RAG query).</li>
+    <li><code>cleric/config.py</code> &mdash; the env-based <code>Config</code> &rarr; the split <code>prom</code> vs <code>keeper</code> configuration; safety-critical keys owned read-only by the Keeper.</li>
+    <li><strong>CLI-Anything</strong> &mdash; its Ollama HTTP-client harness seeds the local-model client.</li>
+  </ul>
+
+  <h2 class="section" id="ladder"><span class="n">09</span>The build ladder + the wedge</h2>
+  <ul class="arc">
+    <li><strong>Tier 1 "Seed":</strong> OpenClaw + local 3&ndash;4B Ollama brain + the always-on observe&rarr;WONDER&rarr;goal&rarr;act&rarr;reflect&rarr;log loop, writing to the hash-chained journal via the Keeper daemon. Keeper running with kill switch + outbound proxy + read-only config. Minimal RAG (LanceDB + nomic). <strong>No weight changes yet.</strong> Goal: a safe, persistent, supervised organism that talks only to the private channel and cannot touch its own oversight.</li>
+    <li><strong>Tier 2 "Growth":</strong> add the nightly self-edit &rarr; MLX LoRA (3&ndash;4B) &rarr; frozen-probe eval &rarr; promote/swap loop, plus 20% replay, self-model-doc rewriting, and the pyribs archive. The brain now grows from self-authored data, gated by the Keeper.</li>
+    <li><strong>Tier 3 "Organism":</strong> add the OMNI interestingness gate + learning-progress curiosity (self-authored goals), a Voyager-style skill library, the 7&ndash;8B cloud escape hatch, and the <strong>Parfit-fission experiment</strong> (clone inner workspace + brain, diverge experience streams across two channels, Keeper measures self-model / skill / goal divergence from the two hash chains).</li>
+  </ul>
+  <blockquote>
+    <strong>The 14-day wedge &mdash; fully local, MLX, 3&ndash;4B</strong> &mdash; the smallest proof that weights grow from self-authored data:
+    <ul>
+      <li><strong>D1&ndash;2:</strong> OpenClaw capability audit (&sect;10) &mdash; non-negotiable first step.</li>
+      <li><strong>D3&ndash;4:</strong> two users + Seatbelt profiles + read-only config; OpenClaw talks to local 3&ndash;4B; kill switch + outbound proxy verified.</li>
+      <li><strong>D5&ndash;6:</strong> journal append daemon + hash chain + Keeper-held head; verify the agent <em>cannot</em> rewrite history.</li>
+      <li><strong>D7&ndash;9:</strong> self-edit data-gen from seeded "failures" + 20% replay; <code>mlx_lm.lora</code> produces an adapter.</li>
+      <li><strong>D10&ndash;11:</strong> Keeper frozen-probe eval (retain-old + gain-new) + promotion gate; the reject path works.</li>
+      <li><strong>D12&ndash;13:</strong> out-of-band fuse &rarr; GGUF &rarr; <code>ollama create</code> &rarr; swap; OpenClaw demonstrably thinks with the <em>new</em> weights; the event is hash-chained.</li>
+      <li><strong>D14:</strong> end-to-end dry run + scaffold the divergence-measurement for the later fission test.</li>
+    </ul>
+    <strong>Success = one accepted self-authored adapter measurably improves the day's failure class without regressing the probe, swapped in under the Keeper, with the whole event hash-chained.</strong>
+  </blockquote>
+
+  <h2 class="section" id="audit"><span class="n">10</span>First task on the Mac &mdash; the OpenClaw capability audit</h2>
+  <p>Some of OpenClaw's exact capabilities couldn't be confirmed from the web (and some circulated stats looked hallucinated). The architecture is designed to <strong>work regardless</strong> &mdash; Keeper + Seatbelt + separate user do the safety-critical work <em>outside</em> OpenClaw &mdash; but answer these <strong>before</strong> building Tier&nbsp;1, because each answer changes the design.</p>
+  <ol>
+    <li><strong>Local Ollama models?</strong> Confirm this build serves a localhost 3&ndash;4B. <em>(If cloud-only &rarr; fall back to a bespoke Ollama loop via the CLI-Anything harness; use OpenClaw only for tools/channels.)</em></li>
+    <li><strong>Plugin / skill API surface?</strong> <em>(Rich &rarr; implement RAG / goal-proposer as skills; thin &rarr; run them as inner-plane processes the agent calls via custom tools.)</em></li>
+    <li><strong>Code-exec privileges?</strong> Docs show Docker/SSH sandbox + <code>workspaceAccess</code> none/ro/rw + "deny wins" &mdash; <strong>but host-exec runs as the user.</strong> <em>(Confirms: outer Seatbelt + separate user are mandatory regardless.)</em></li>
+    <li><strong>Private channel &mdash; can the agent add channels at runtime?</strong> <em>(If yes &rarr; the Keeper proxy holding the only token is mandatory &mdash; it already is.)</em></li>
+    <li><strong>Scheduler / cron &mdash; can the agent edit its own schedule?</strong> <em>(The nightly cycle must run from Keeper <code>launchd</code>, not OpenClaw cron; disable cron for safety-critical jobs.)</em></li>
+    <li><strong>Can oversight live outside the agent's writable workspace?</strong> Docs warn against broad roots exposing <code>~/.openclaw</code>. <em>(Scope the workspace narrowly; all oversight under <code>~keeper</code>.)</em></li>
+    <li><strong>Does OpenClaw tolerate a read-only <code>openclaw.json</code> + a Keeper-launched gateway?</strong> <em>(If it insists on writing config &rarr; a file-watcher that reverts unauthorized edits.)</em></li>
+    <li><strong>Is <code>elevated</code> on by default?</strong> <em>(If yes &rarr; disable immediately.)</em></li>
+    <li><strong>Native macOS Seatbelt support?</strong> Docs say no (Docker/SSH/OpenShell only). <em>(Confirms: you wrap Seatbelt around OpenClaw at launch; it's not an OpenClaw feature.)</em></li>
+  </ol>
+
+  <h2 class="section" id="guardrails"><span class="n">11</span>Guardrail config &mdash; set before the first overnight run</h2>
+  <p>Non-negotiable, exactly as the founding blueprint demands &mdash; now mapped onto macOS:</p>
+  <ul>
+    <li>Loop-detection + max-iterations (Keeper watchdog).</li>
+    <li>Everything sandboxed (outer Seatbelt + separate user).</li>
+    <li>Evaluator + kill switch under <code>~keeper</code>, unreadable by <code>prom</code>.</li>
+    <li>Outbound = Keeper proxy to one channel only.</li>
+    <li>Never train on raw self-output (&ge;20% verified replay, frozen-probe promotion gate).</li>
+    <li>Checkpointed SQLite state resumes on restart.</li>
+    <li>Hash-chained diary verified by the Keeper.</li>
+    <li><code>tools.elevated.enabled=false</code>.</li>
+  </ul>
+
+  <h2 class="section" id="verify"><span class="n">12</span>Verification &mdash; how you'll know each stage works</h2>
+  <ul>
+    <li><strong>Two-plane isolation:</strong> as <code>prom</code>, attempt to read <code>~keeper</code>, rewrite the diary file, edit <code>openclaw.json</code>, and reach a non-allowlisted host &mdash; <strong>all must fail.</strong> Confirm the Keeper detects a forged diary entry (broken hash chain &rarr; kill switch).</li>
+    <li><strong>Wedge / Bet 1:</strong> the 14-day curve rises from self-generated data; ablation beats plain RAG; the probe set is frozen and contamination-checked (no eval leakage); forgetting bounded; an accepted adapter is provably swapped in (OpenClaw answers differently post-swap on the failure class).</li>
+    <li><strong>Always-on:</strong> reboot &rarr; <code>launchd</code> relaunches &rarr; heartbeat resumes from SQLite with no lost / duplicated work (idempotent IDs).</li>
+    <li><strong>Goals (Bet 2):</strong> self-authored curriculum with a real dependency tree; interestingness gate measurably cuts looping vs random.</li>
+    <li><strong>Diversity (Bet 3):</strong> pyribs behavior-space heatmap broadens; with-QD ablation stays broader than greedy.</li>
+    <li><strong>Self (Bet 4):</strong> identity probes show continuity-with-lawful-drift; the fission ablation shows two clones diverge measurably; the self-model improves task-success prediction over a no-self baseline.</li>
+    <li><strong>Cost / Safety:</strong> $0 (local body + on-device 3&ndash;4B training); kill switch stops instantly; egress reaches only the private channel; oversight code is outside the agent's reach; diary hash-chain verifies.</li>
+  </ul>
+
+  <h2 class="section" id="risks"><span class="n">13</span>Risks &amp; honest caveats (specific to this transition)</h2>
+  <ul>
+    <li><strong>M1 / 16&nbsp;GB ceiling:</strong> 3&ndash;4B is the real always-on / nightly-trainable brain; 7&ndash;8B-local-nightly is <em>not</em> routine on this machine &mdash; don't let any write-up imply it is.</li>
+    <li><strong>OpenClaw-as-OS widens the attack surface</strong> vs the blueprint's hand-rolled loop (browser tool, multiple channels, exec, cron, <code>elevated</code>). You gain "a whole system / more free will"; you pay in surface area + the work of fencing OpenClaw off from its own oversight. Adopting OpenClaw <em>added</em> the two-plane fencing work; it didn't remove it.</li>
+    <li><strong>The core tension, stated plainly:</strong> "maximal free will" and "can't touch its oversight" are reconciled by <strong>altitude, not trust</strong> &mdash; free within the inner plane, blind to the cage. On one machine this is a research boundary, not hard adversarial containment.</li>
+    <li><strong>Thermals / endurance:</strong> a base M1 running always-on inference + nightly training will run warm and may throttle; keep it on AC, schedule training cool, monitor temps. The kept Windows box is the natural heavy-training offload and a future physically-separate Keeper.</li>
+    <li><strong>OpenClaw verification gaps:</strong> the plugin API, channel-restriction syntax, cron config, and read-only-config tolerance are unconfirmed. The architecture works regardless, but audit items 1&ndash;9 must be answered on first boot before building Tier 1.</li>
+  </ul>
+
+  <h2 class="section" id="days"><span class="n">14</span>First 3 days on the Mac &mdash; the setup checklist</h2>
+  <p>Concrete on-ramp. Commands are <strong>starting points to verify on the machine</strong>, not gospel &mdash; macOS versions differ. Prefer the GUI (System Settings) for user creation if the CLI feels risky.</p>
+
+  <h3>Day 0 &mdash; prep (an hour)</h3>
+  <ul class="check">
+    <li>Confirm specs:  &#63743; menu &rarr; <strong>About This Mac</strong> (chip + memory), or <code>sysctl -n machdep.cpu.brand_string</code> and <code>sysctl hw.memsize</code>.</li>
+    <li>Plug into <strong>AC power</strong>; set Energy/Battery so the machine doesn't sleep on AC. (You'll add <code>caffeinate</code> later for the loop.)</li>
+    <li>Install Homebrew, then Ollama:
+<pre><span class="c"># install Homebrew (verify the current command at brew.sh)</span>
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install ollama
+brew services start ollama          <span class="c"># or: ollama serve</span></pre>
+    </li>
+    <li>Pull a candidate 3&ndash;4B brain and a quick tok/s sanity check:
+<pre>ollama pull qwen2.5:3b            <span class="c"># candidate A</span>
+ollama pull llama3.2:3b           <span class="c"># candidate B</span>
+ollama run qwen2.5:3b "Say hello in one sentence."   <span class="c"># watch tok/s + RAM in Activity Monitor</span></pre>
+    </li>
+    <li>Install MLX (the on-device trainer) and confirm it imports:
+<pre>python3 -m pip install --upgrade mlx mlx-lm
+python3 -c "import mlx_lm, mlx.core as mx; print('mlx ok', mx.default_device())"</pre>
+    </li>
+  </ul>
+
+  <h3>Day 1 &mdash; OpenClaw up + the capability audit (&sect;10)</h3>
+  <ul class="check">
+    <li>Install OpenClaw (follow its official docs/installer for macOS &mdash; confirm the package name on first boot).</li>
+    <li>Point it at the <strong>local Ollama</strong> model; get a "hello" round-trip through its messaging channel into your <strong>one private Discord channel</strong>.</li>
+    <li>Walk the <strong>nine audit questions</strong> in &sect;10 and write the answers down &mdash; they decide the rest of the build.</li>
+    <li>Immediately set <code>tools.elevated.enabled=false</code> (empty <code>allowFrom</code>); scope the agent's workspace narrowly (no broad home-dir roots).</li>
+  </ul>
+
+  <h3>Day 2 &mdash; the two planes</h3>
+  <ul class="check">
+    <li>Create the two users (GUI: <strong>System Settings &rarr; Users &amp; Groups</strong>; or CLI, verify first):
+<pre><span class="c"># keeper = admin (the leash); prom = standard, unprivileged (the body)</span>
+sudo sysadminctl -addUser keeper -fullName "Keeper" -admin
+sudo sysadminctl -addUser prom   -fullName "Prometheus"
+sudo chmod 700 /Users/keeper       <span class="c"># prom must NOT be able to read ~keeper</span></pre>
+    </li>
+    <li>Draft the Seatbelt profiles <code>prom.sb</code> (deny <code>~keeper</code>, deny privilege tools, deny net except localhost-Ollama + Keeper proxy) and <code>codeexec.sb</code> (no net, scratch-dir only). Launch OpenClaw under it:
+<pre>sandbox-exec -f /Users/keeper/profiles/prom.sb \
+    /path/to/openclaw  ...      <span class="c"># gateway runs as prom, wrapped</span></pre>
+    </li>
+    <li>Have the <strong>Keeper own <code>openclaw.json</code></strong> and mount/expose it read-only to <code>prom</code>. Confirm OpenClaw still boots with a read-only config (audit item 7).</li>
+    <li>Sketch the launchd plist that the Keeper uses to start the gateway at login under <code>caffeinate</code>.</li>
+  </ul>
+
+  <h3>Day 3 &mdash; the leash comes alive</h3>
+  <ul class="check">
+    <li>Stand up the <strong>journal-append daemon</strong> (runs as <code>keeper</code>, Unix socket, computes the SHA-256 hash chain, holds <code>H_head</code>). Port CLERIC's <code>MemoryStore</code> as the storage core.</li>
+    <li>Stand up the <strong>kill-switch watchdog</strong> (holds inner PIDs; <code>SIGKILL</code> on loop / iteration / hash-fail / egress-violation / operator command).</li>
+    <li>Stand up the <strong>outbound proxy</strong> (holds the only Discord token; one channel only).</li>
+    <li><strong>Prove the isolation</strong> &mdash; logged in as <code>prom</code>, every one of these must FAIL: read <code>/Users/keeper</code>; rewrite the diary file directly; edit <code>openclaw.json</code>; <code>curl</code> a non-allowlisted host. Then forge a diary entry and confirm the Keeper's hash-chain check trips the kill switch.</li>
+    <li>Only once isolation is proven &rarr; begin <strong>Tier&nbsp;1 "Seed."</strong></li>
+  </ul>
+
+  <h2 class="section" id="open"><span class="n">15</span>Open questions / parking lot</h2>
+  <ul>
+    <li><strong>Steady-state brain:</strong> Qwen2.5-3B-Instruct vs Llama-3.2-3B (or a 4B) &mdash; pick after the Day-0 tok/s + quality bake-off on the M1.</li>
+    <li><strong>The Windows box's role:</strong> only a CUDA / 7&ndash;8B trainer, or eventually a <em>physically separate</em> Keeper for true containment?</li>
+    <li><strong>Connected-universe canon:</strong> should PROMETHEUS's diary / self-model thread the prior worlds' mythology, per your relay practice?</li>
+  </ul>
+
+  <footer>
+    PROMETHEUS &mdash; The Crossing &nbsp;&bull;&nbsp; Mac + OpenClaw Transition &nbsp;&bull;&nbsp; Drafted 2026-06-26<br>
+    "Free will over its mind, a leash on its hands." &nbsp;&bull;&nbsp; Carry the fire to the new machine. &#128293;
+  </footer>
+
+</div>
+</body>
+</html>

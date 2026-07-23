@@ -1,0 +1,15 @@
+# PROMETHEUS — Windows / RTX 3050 (4GB) stack.
+# torch must come from the CUDA index:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+torch
+transformers
+peft
+bitsandbytes
+trl
+datasets
+accelerate
+apscheduler
+requests
+safetensors
+sentencepiece
+discord.py
